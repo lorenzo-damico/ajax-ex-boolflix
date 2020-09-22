@@ -12,4 +12,19 @@
 
 $(document).ready(function () {
 
+  // EVENTI
+
+  // Aggiungo un evento al click sul bottone.
+  $("#search-button").click(
+    function () {
+
+      // Creo una variabile con il contenuto dell'input.
+      var searchInput = $("#search-films").val();
+
+      // Pulisco il campo di input.
+      $("#search-films").val("");
+      
+    }
+  );
+
 });

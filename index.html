@@ -10,6 +10,32 @@
   </head>
   <body>
 
+    <div class="wrapper">
+      <header>
+        <div class="search-bar">
+          <input id="search-films" type="text" name="ricerca-films" value="" placeholder="Cerca">
+          <button id="search-button" type="button" name="button">Cerca</button>
+        </div>
+      </header>
+
+      <main>
+        <ul id="list-movies">
+
+        </ul>
+      </main>
+    </div>
+
+    <!-- TEMPLATE -->
+    <script id="film-template" type="text/x-handlebars-template">
+      <li class="film">
+        <h3>Titolo: {{title}}</h3>
+        <h4>Titolo originale: {{original_title}}</h4>
+        <p>Lingua: {{original_language}}</p>
+        <p>Voto: <strong>{{vote_average}}</strong></p>
+      </li>
+    </script>
+    <!-- /TEMPLATE -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js" charset="utf-8"></script>
     <script src="js/script.js" charset="utf-8"></script>
   </body>
