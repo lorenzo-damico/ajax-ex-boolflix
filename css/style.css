@@ -7,4 +7,13 @@
 .wrapper {
   width: 90%;
   margin: auto;
+  padding-top: 20px;
+}
+
+main {
+  margin-top: 20px;
+  border-top: 1px solid lightgrey;
+}
+.film {
+  margin-top: 20px;
 }
