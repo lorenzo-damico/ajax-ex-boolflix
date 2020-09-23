@@ -14,10 +14,10 @@ $(document).ready(function () {
 
   // FUNZIONI
 
-  // Funzione di pulizia del campo input e della lista film.
+  // FUNZIONE DI PULIZIA DEL CAMPO INPUT E DELLE LISTE FILM E SERIE.
   function resetSearch() {
 
-    // Svuoto la lista di film.
+    // Svuoto la lista di film e serie.
     $("#movies-list").html("");
     $("#series-list").html("");
 
@@ -25,8 +25,8 @@ $(document).ready(function () {
     $("#search-media").val("");
   }
 
-  // Funzione che converte il voto in stelline.
-  function voteConvertion(mediaObject) {
+  // FUNZIONE CHE CONVERTE IL VOTO IN STELLINE.
+  function voteConversion(mediaObject) {
 
     // Salvo il voto in una variabile.
     var voto = mediaObject.vote_average;
@@ -46,10 +46,9 @@ $(document).ready(function () {
       stelline += '<i class="far fa-star"></i>';
     }
     return stelline;
-
   }
 
-  // Funzione che stampa a schermo.
+  // FUNZIONE CHE STAMPA A SCHERMO I RISULTATI DI UNA RICHIESTA.
   function renderMedia(arrayDatabase, sezioneMedia) {
 
     // Genero il template con handlebars.
@@ -59,12 +58,13 @@ $(document).ready(function () {
     // Eseguo un ciclo sull'array dei media per stamparli a schermo.
     for (var i = 0; i < arrayDatabase.length; i++) {
 
-      // Definisco la bandiera della lingua originale.
-      var bandieraLingua = "img/"+ arrayDatabase[i].original_language + "-100.png";
-
       // Se la bandiera non è presente, ne metto una trasparente.
       if (!bandierePresenti.includes(arrayDatabase[i].original_language)) {
-        bandieraLingua = "img/trasparente.png";
+        var bandieraLingua = "img/trasparente.png";
+
+      // Altrimenti definisco la bandiera della lingua originale.
+      } else {
+        var bandieraLingua = "img/"+ arrayDatabase[i].original_language + ".png";
       }
 
       // Genero l'oggetto context da stampare.
@@ -84,19 +84,19 @@ $(document).ready(function () {
       sezioneMedia.append(html);
 
       // Conversione del voto in stelle e stampa.
-      var votoStellato = voteConvertion(arrayDatabase[i]);
+      var votoStellato = voteConversion(arrayDatabase[i]);
       sezioneMedia.children(".media[data-result='"+ i +"']").find(".stars").html(votoStellato);
     }
   }
 
-  // Funzione di ricerca e stampa dei film.
-  function getMedia(search, endpoint, sezioneMedia) {
+  // FUNZIONE DI RICERCA E STAMPA DEI MEDIA.
+  function getMedia(search, endpointMedia, sezioneMedia) {
 
     // Effettuo la chiamata ajax all'API del movie database, per ottenere
-    // le schede dei film.
+    // le schede dei media.
     $.ajax(
       {
-        "url": endpoint,
+        "url": endpointMedia,
         "data": {
           "api_key": "04bbabd51c895f6f8040168aa7e1cd41",
           "query": search,
@@ -133,7 +133,7 @@ $(document).ready(function () {
   var endpointFilm = "https://api.themoviedb.org/3/search/movie";
   var endpointSerie = "https://api.themoviedb.org/3/search/tv";
 
-  // Definisco la lista dei film e quella delle serie.
+  // Definisco la sezione dei film e quella delle serie.
   var sezioneFilm = $("#movies-list");
   var sezioneSerie = $("#series-list");
 
@@ -151,7 +151,7 @@ $(document).ready(function () {
 
       if (searchInput != "") {
 
-        // Pulisco input e lista.
+        // Pulisco input e liste.
         resetSearch();
 
         // Uso la funzione di ricerca e stampa dei risultati dei film.
