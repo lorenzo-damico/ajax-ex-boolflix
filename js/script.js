@@ -26,11 +26,14 @@ $(document).ready(function () {
   }
 
   // FUNZIONE CHE DEFINISCE LA BANDIERINA DELLA LINGUA.
-  function flagGenerator(languageProperty) {
+  function flagGenerator(mediaObject) {
+
+    // Salvo la lingua in una variabile.
+    var lingua = mediaObject.original_language;
 
     // Se la lingua è inclusa fra le bandiere presenti, ritorno la bandierina.
-    if (bandierePresenti.includes(languageProperty)) {
-      return "img/"+ languageProperty + ".png";
+    if (bandierePresenti.includes(lingua)) {
+      return "img/"+ lingua + ".png";
 
     // Altrimenti ritorno una bandiera trasparente.
     } else {
@@ -72,7 +75,7 @@ $(document).ready(function () {
     for (var i = 0; i < arrayDatabase.length; i++) {
 
       // Genero la bandierina da associare alla lingua.
-      var bandieraLingua = flagGenerator(arrayDatabase[i].original_language);
+      var bandieraLingua = flagGenerator(arrayDatabase[i]);
 
       // Converto il voto in quinti e genero le stelle.
       var votoStellato = voteConversion(arrayDatabase[i]);
