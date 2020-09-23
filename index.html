@@ -14,7 +14,7 @@
     <div class="wrapper">
       <header>
         <div class="search-bar">
-          <input id="search-films" type="text" placeholder="Cerca">
+          <input id="search-media" type="text" placeholder="Cerca">
           <button id="search-button" type="button" name="button">Cerca</button>
         </div>
       </header>
@@ -24,14 +24,19 @@
         <ul id="movies-list">
 
         </ul>
+
+        <h2>Serie TV</h3>
+        <ul id="series-list">
+
+        </ul>
       </main>
     </div>
 
     <!-- TEMPLATE -->
-    <script id="film-template" type="text/x-handlebars-template">
-      <li class="film" data-result = "{{data_result}}">
-        <h3>Titolo: {{title}}</h3>
-        <h4>Titolo originale: {{original_title}}</h4>
+    <script id="media-template" type="text/x-handlebars-template">
+      <li class="media" data-result = "{{data_result}}">
+        <h3>Titolo: {{title}}{{name}}</h3>
+        <h4>Titolo originale: {{original_title}}{{original_name}}</h4>
         <p>Lingua: {{original_language}} <img src="{{flag_icon}}"></p>
         <p>Voto: {{vote_average}} <span class="stars"></span></p>
       </li>

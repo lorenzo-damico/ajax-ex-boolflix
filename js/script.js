@@ -19,9 +19,10 @@ $(document).ready(function () {
 
     // Svuoto la lista di film.
     $("#movies-list").html("");
+    $("#series-list").html("");
 
     // Pulisco il campo di input.
-    $("#search-films").val("");
+    $("#search-media").val("");
   }
 
   // Funzione che converte il voto in stelline.
@@ -49,13 +50,13 @@ $(document).ready(function () {
   }
 
   // Funzione che stampa a schermo.
-  function renderMovies(arrayDatabase) {
+  function renderMedia(arrayDatabase, sezioneMedia) {
 
     // Genero il template con handlebars.
-    var source = $("#film-template").html();
+    var source = $("#media-template").html();
     var template = Handlebars.compile(source);
 
-    // Eseguo un ciclo sull'array dei film per stamparli a schermo.
+    // Eseguo un ciclo sull'array dei media per stamparli a schermo.
     for (var i = 0; i < arrayDatabase.length; i++) {
 
       // Definisco la bandiera della lingua originale.
@@ -69,7 +70,9 @@ $(document).ready(function () {
       // Genero l'oggetto context da stampare.
       var context = {
         "title": arrayDatabase[i].title,
+        "name": arrayDatabase[i].name,
         "original_title": arrayDatabase[i].original_title,
+        "original_name": arrayDatabase[i].original_name,
         "original_language": arrayDatabase[i].original_language,
         "flag_icon": bandieraLingua,
         "vote_average": arrayDatabase[i].vote_average / 2,
@@ -78,22 +81,22 @@ $(document).ready(function () {
 
       // Compilo il template e lo aggiungo nella lista film.
       var html = template(context);
-      $("#movies-list").append(html);
+      sezioneMedia.append(html);
 
       // Conversione del voto in stelle e stampa.
       var votoStellato = voteConvertion(arrayDatabase[i]);
-      $(".film[data-result='"+ i +"'] .stars").html(votoStellato);
+      sezioneMedia.children(".media[data-result='"+ i +"']").find(".stars").html(votoStellato);
     }
   }
 
   // Funzione di ricerca e stampa dei film.
-  function getMovies(search) {
+  function getMedia(search, endpoint, sezioneMedia) {
 
     // Effettuo la chiamata ajax all'API del movie database, per ottenere
     // le schede dei film.
     $.ajax(
       {
-        "url": "https://api.themoviedb.org/3/search/movie",
+        "url": endpoint,
         "data": {
           "api_key": "04bbabd51c895f6f8040168aa7e1cd41",
           "query": search,
@@ -103,11 +106,11 @@ $(document).ready(function () {
         "method": "GET",
         "success": function (data) {
 
-          // Salvo la lista dei film in un array.
-          var listaFilm = data.results;
+          // Salvo la lista dei media in un array.
+          var listaMedia = data.results;
 
           // Eseguo la funzione di stampa.
-          renderMovies(listaFilm);
+          renderMedia(listaMedia, sezioneMedia);
 
         },
         "error": function (err) {
@@ -126,6 +129,14 @@ $(document).ready(function () {
   // Definisco un array contenente le bandiere disponibili.
   var bandierePresenti = ["en", "it", "de", "es", "fr", "ja"];
 
+  // Definisco un endpoint per i film e uno per le serie.
+  var endpointFilm = "https://api.themoviedb.org/3/search/movie";
+  var endpointSerie = "https://api.themoviedb.org/3/search/tv";
+
+  // Definisco la lista dei film e quella delle serie.
+  var sezioneFilm = $("#movies-list");
+  var sezioneSerie = $("#series-list");
+
   // FINE CODICE
 
 
@@ -136,28 +147,31 @@ $(document).ready(function () {
     function () {
 
       // Creo una variabile con il contenuto dell'input.
-      var searchInput = $("#search-films").val();
+      var searchInput = $("#search-media").val();
 
       if (searchInput != "") {
 
         // Pulisco input e lista.
         resetSearch();
 
-        // Uso la funzione di ricerca e stampa dei risultati.
-        getMovies(searchInput);
+        // Uso la funzione di ricerca e stampa dei risultati dei film.
+        getMedia(searchInput, endpointFilm, sezioneFilm);
+
+        // Uso la funzione di ricerca e stampa dei risultati delle serie.
+        getMedia(searchInput, endpointSerie, sezioneSerie);
       }
     }
   );
 
   // 2. Aggiungo un evento alla pressione del tasto invio.
-  $("#search-films").keyup(
+  $("#search-media").keyup(
     function () {
 
       // Se premo il tasto invio, cerco e stampo.
       if (event.which == 13) {
 
         // Creo una variabile con il contenuto dell'input.
-        var searchInput = $("#search-films").val();
+        var searchInput = $("#search-media").val();
 
         if (searchInput != "") {
 
@@ -165,7 +179,10 @@ $(document).ready(function () {
           resetSearch();
 
           // Uso la funzione di ricerca e stampa dei risultati.
-          getMovies(searchInput);
+          getMedia(searchInput, endpointFilm, sezioneFilm);
+
+          // Uso la funzione di ricerca e stampa dei risultati delle serie.
+          getMedia(searchInput, endpointSerie, sezioneSerie);
         }
       }
     }
