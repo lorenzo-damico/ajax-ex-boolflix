@@ -35,13 +35,13 @@ $(document).ready(function () {
 
     // Con un ciclo stampo un numero di stelle piene pari al voto.
     var stelline = "";
-    for (var j = 0; j < votoArrotondato; j++) {
+    for (var i = 0; i < votoArrotondato; i++) {
       stelline += '<i class="fas fa-star"></i>';
     }
 
     // Con un ciclo stampo un numero di stelle vuote pari alle rimanenti
     // per arrivare a 5.
-    for (var k = 0; k < (5 - votoArrotondato); k++) {
+    for (var i = 0; i < (5 - votoArrotondato); i++) {
       stelline += '<i class="far fa-star"></i>';
     }
     return stelline;
@@ -58,17 +58,20 @@ $(document).ready(function () {
     // Eseguo un ciclo sull'array dei film per stamparli a schermo.
     for (var i = 0; i < arrayDatabase.length; i++) {
 
-      // var bandieraLingua = arrayDatabase[i].original_language;
-      //
-      // if (arrayDatabase[i].original_language == "en") {
-      //   var bandieraLingua = "gb";
-      // }
+      // Definisco la bandiera della lingua originale.
+      var bandieraLingua = "img/"+ arrayDatabase[i].original_language + "-100.png";
+
+      // Se la bandiera non è presente, ne metto una trasparente.
+      if (!bandierePresenti.includes(arrayDatabase[i].original_language)) {
+        bandieraLingua = "img/trasparente.png";
+      }
+
       // Genero l'oggetto context da stampare.
       var context = {
         "title": arrayDatabase[i].title,
         "original_title": arrayDatabase[i].original_title,
         "original_language": arrayDatabase[i].original_language,
-        "flag_icon": "img/"+ arrayDatabase[i].original_language + ".png",
+        "flag_icon": bandieraLingua,
         "vote_average": arrayDatabase[i].vote_average / 2,
         "data_result": i
       };
@@ -116,6 +119,14 @@ $(document).ready(function () {
 
 
   // FINE FUNZIONI
+
+
+  // CODICE
+
+  // Definisco un array contenente le bandiere disponibili.
+  var bandierePresenti = ["en", "it", "de", "es", "fr", "ja"];
+
+  // FINE CODICE
 
 
   // EVENTI
