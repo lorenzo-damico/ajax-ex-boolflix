@@ -25,6 +25,18 @@ $(document).ready(function () {
     $("#search-media").val("");
   }
 
+  // FUNZIONE CHE DEFINISCE LA BANDIERINA DELLA LINGUA.
+  function flagGenerator(languageProperty) {
+
+    if (bandierePresenti.includes(languageProperty)) {
+      return "img/"+ languageProperty + ".png";
+
+    // Altrimenti definisco una bandiera trasparente.
+    } else {
+      return "img/trasparente.png";
+    }
+
+  }
   // FUNZIONE CHE CONVERTE IL VOTO IN STELLINE.
   function voteConversion(mediaObject) {
 
@@ -58,14 +70,8 @@ $(document).ready(function () {
     // Eseguo un ciclo sull'array dei media per stamparli a schermo.
     for (var i = 0; i < arrayDatabase.length; i++) {
 
-      // Se la bandiera non è presente, ne metto una trasparente.
-      if (!bandierePresenti.includes(arrayDatabase[i].original_language)) {
-        var bandieraLingua = "img/trasparente.png";
-
-      // Altrimenti definisco la bandiera della lingua originale.
-      } else {
-        var bandieraLingua = "img/"+ arrayDatabase[i].original_language + ".png";
-      }
+      // Genero la bandierina da associare alla lingua.
+      var bandieraLingua = flagGenerator(arrayDatabase[i].original_language);
 
       // Converto il voto in quinti e genero le stelle.
       var votoStellato = voteConversion(arrayDatabase[i]);
