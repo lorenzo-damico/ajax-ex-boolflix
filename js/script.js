@@ -121,12 +121,15 @@ $(document).ready(function () {
       // Creo una variabile con il contenuto dell'input.
       var searchInput = $("#search-films").val();
 
-      // Pulisco input e lista.
-      resetSearch();
+      if (searchInput != "") {
 
-      // Uso la funzione di ricerca e stampa dei risultati.
-      getMovies(searchInput);
-    }
+        // Pulisco input e lista.
+        resetSearch();
+
+        // Uso la funzione di ricerca e stampa dei risultati.
+        getMovies(searchInput);
+      }
+      }
   );
 
   // 2. Aggiungo un evento alla pressione del tasto invio.
@@ -139,11 +142,14 @@ $(document).ready(function () {
         // Creo una variabile con il contenuto dell'input.
         var searchInput = $("#search-films").val();
 
-        // Pulisco input e lista.
-        resetSearch();
+        if (searchInput != "") {
 
-        // Uso la funzione di ricerca e stampa dei risultati.
-        getMovies(searchInput);
+          // Pulisco input e lista.
+          resetSearch();
+
+          // Uso la funzione di ricerca e stampa dei risultati.
+          getMovies(searchInput);
+        }
       }
     }
   );
