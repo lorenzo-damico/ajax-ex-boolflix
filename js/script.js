@@ -25,10 +25,10 @@ $(document).ready(function () {
   }
 
   // Funzione che converte il voto in stelline.
-  function voteConvertion(movieObject) {
+  function voteConvertion(mediaObject) {
 
     // Salvo il voto in una variabile.
-    var voto = movieObject.vote_average;
+    var voto = mediaObject.vote_average;
 
     // Converto il voto in scala da 1 a 5 arrotondando per eccesso.
     var votoArrotondato = Math.ceil(voto / 2);
@@ -129,7 +129,7 @@ $(document).ready(function () {
         // Uso la funzione di ricerca e stampa dei risultati.
         getMovies(searchInput);
       }
-      }
+    }
   );
 
   // 2. Aggiungo un evento alla pressione del tasto invio.
