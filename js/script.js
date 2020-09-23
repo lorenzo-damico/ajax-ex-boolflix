@@ -28,15 +28,16 @@ $(document).ready(function () {
   // FUNZIONE CHE DEFINISCE LA BANDIERINA DELLA LINGUA.
   function flagGenerator(languageProperty) {
 
+    // Se la lingua è inclusa fra le bandiere presenti, ritorno la bandierina.
     if (bandierePresenti.includes(languageProperty)) {
       return "img/"+ languageProperty + ".png";
 
-    // Altrimenti definisco una bandiera trasparente.
+    // Altrimenti ritorno una bandiera trasparente.
     } else {
       return "img/trasparente.png";
     }
-
   }
+  
   // FUNZIONE CHE CONVERTE IL VOTO IN STELLINE.
   function voteConversion(mediaObject) {
 
