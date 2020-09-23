@@ -58,11 +58,17 @@ $(document).ready(function () {
     // Eseguo un ciclo sull'array dei film per stamparli a schermo.
     for (var i = 0; i < arrayDatabase.length; i++) {
 
+      // var bandieraLingua = arrayDatabase[i].original_language;
+      //
+      // if (arrayDatabase[i].original_language == "en") {
+      //   var bandieraLingua = "gb";
+      // }
       // Genero l'oggetto context da stampare.
       var context = {
         "title": arrayDatabase[i].title,
         "original_title": arrayDatabase[i].original_title,
         "original_language": arrayDatabase[i].original_language,
+        "flag_icon": "img/"+ arrayDatabase[i].original_language + ".png",
         "vote_average": arrayDatabase[i].vote_average / 2,
         "data_result": i
       };

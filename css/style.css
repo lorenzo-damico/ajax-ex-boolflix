@@ -3,19 +3,26 @@
   margin: 0;
   padding: 0;
 }
-
+h2 {
+  color: red;
+}
 .wrapper {
   width: 90%;
   margin: auto;
 }
 .search-bar {
   margin: 20px 0;
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 20px;
 }
-#movies-list {
-  border-top: 1px solid lightgrey;
-}
+
 .film {
   margin-top: 20px;
+}
+.film img {
+  height: 15px;
+  vertical-align: middle;
+  border: 1px solid black;
 }
 .stars {
   color: gold;
