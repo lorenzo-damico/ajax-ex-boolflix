@@ -37,7 +37,7 @@ $(document).ready(function () {
       return "img/trasparente.png";
     }
   }
-  
+
   // FUNZIONE CHE CONVERTE IL VOTO IN STELLINE.
   function voteConversion(mediaObject) {
 
