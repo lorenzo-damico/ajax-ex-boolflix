@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <title>Boolflix</title>
   </head>
@@ -27,11 +28,11 @@
 
     <!-- TEMPLATE -->
     <script id="film-template" type="text/x-handlebars-template">
-      <li class="film">
+      <li class="film" data-result = "{{data_result}}">
         <h3>Titolo: {{title}}</h3>
         <h4>Titolo originale: {{original_title}}</h4>
         <p>Lingua: {{original_language}}</p>
-        <p>Voto: <strong>{{vote_average}}</strong></p>
+        <p>Voto: {{vote_average}} <span class="stars"></span></p>
       </li>
     </script>
     <!-- /TEMPLATE -->

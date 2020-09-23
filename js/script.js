@@ -24,6 +24,30 @@ $(document).ready(function () {
     $("#search-films").val("");
   }
 
+  // Funzione che converte il voto in stelline.
+  function voteConvertion(movieObject) {
+
+    // Salvo il voto in una variabile.
+    var voto = movieObject.vote_average;
+
+    // Converto il voto in scala da 1 a 5 arrotondando per eccesso.
+    var votoArrotondato = Math.ceil(voto / 2);
+
+    // Con un ciclo stampo un numero di stelle piene pari al voto.
+    var stelline = "";
+    for (var j = 0; j < votoArrotondato; j++) {
+      stelline += '<i class="fas fa-star"></i>';
+    }
+
+    // Con un ciclo stampo un numero di stelle vuote pari alle rimanenti
+    // per arrivare a 5.
+    for (var k = 0; k < (5 - votoArrotondato); k++) {
+      stelline += '<i class="far fa-star"></i>';
+    }
+    return stelline;
+
+  }
+
   // Funzione che stampa a schermo.
   function renderMovies(arrayDatabase) {
 
@@ -39,12 +63,17 @@ $(document).ready(function () {
         "title": arrayDatabase[i].title,
         "original_title": arrayDatabase[i].original_title,
         "original_language": arrayDatabase[i].original_language,
-        "vote_average": arrayDatabase[i].vote_average
+        "vote_average": arrayDatabase[i].vote_average / 2,
+        "data_result": i
       };
 
       // Compilo il template e lo aggiungo nella lista film.
       var html = template(context);
       $("#movies-list").append(html);
+
+      // Conversione del voto in stelle e stampa.
+      var votoStellato = voteConvertion(arrayDatabase[i]);
+      $(".film[data-result='"+ i +"'] .stars").html(votoStellato);
     }
   }
 
@@ -78,6 +107,7 @@ $(document).ready(function () {
       }
     );
   }
+
 
   // FINE FUNZIONI
 
