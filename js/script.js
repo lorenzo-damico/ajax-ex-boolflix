@@ -67,6 +67,9 @@ $(document).ready(function () {
         var bandieraLingua = "img/"+ arrayDatabase[i].original_language + ".png";
       }
 
+      // Converto il voto in quinti e genero le stelle.
+      var votoStellato = voteConversion(arrayDatabase[i]);
+
       // Genero l'oggetto context da stampare.
       var context = {
         "title": arrayDatabase[i].title,
@@ -76,16 +79,12 @@ $(document).ready(function () {
         "original_language": arrayDatabase[i].original_language,
         "flag_icon": bandieraLingua,
         "vote_average": arrayDatabase[i].vote_average / 2,
-        "data_result": i
+        "voto_stellato": votoStellato
       };
 
-      // Compilo il template e lo aggiungo nella lista film.
+      // Compilo il template e lo aggiungo nella sezione media.
       var html = template(context);
       sezioneMedia.append(html);
-
-      // Conversione del voto in stelle e stampa.
-      var votoStellato = voteConversion(arrayDatabase[i]);
-      sezioneMedia.children(".media[data-result='"+ i +"']").find(".stars").html(votoStellato);
     }
   }
 
