@@ -39,10 +39,29 @@
 // Esempio di URL che torna la copertina di PEPPA PIG:
 // https://image.tmdb.org/t/p/w185/tZgQ76hS9RFIwFyUxzctp1Pkz0N.jpg
 
+// Milestone 4:
+// Trasformiamo quello che abbiamo fatto fino ad ora in una vera e propria webapp,
+// creando un layout completo simil-Netflix:
+// Un header che contiene logo e search bar
+// Dopo aver ricercato qualcosa nella searchbar, i risultati appaiono sotto
+// forma di “card” in cui lo sfondo è rappresentato dall’immagine di copertina
+// (consiglio la poster_path con w342)
+// Andando con il mouse sopra una card (on hover), appaiono le informazioni
+// aggiuntive già prese nei punti precedenti più la overview
 
 $(document).ready(function () {
 
   // FUNZIONI
+  // FUNZIONE CHE GENERA L'OVERVIEW.
+  function printOverview(string) {
+
+    if (string != "")  {
+      return string
+
+    } else {
+      return "Non disponibile."
+    }
+  }
 
   // FUNZIONE CHE GENERA L'URL DEL POSTER DEL MEDIA.
   function printUrl(string) {
@@ -163,13 +182,17 @@ $(document).ready(function () {
       // Genero il voto in stelle, da 1 a 5.
       var voto = printStars(arrayDatabase[i].vote_average);
 
+      // Genero l'overview.
+      var overview = printOverview(arrayDatabase[i].overview)
+
       // Genero l'oggetto context da stampare.
       var context = {
         "poster_path": posterUrl,
         "title": title,
         "original_title": originalTitle,
         "original_language": lingua,
-        "vote_average": voto
+        "vote_average": voto,
+        "overview": overview
       };
 
       // Compilo il template e lo aggiungo nella sezione media.
