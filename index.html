@@ -18,14 +18,14 @@
             <h1>Boolflix</h1>
           </div>
           <div class="search-bar">
-            <input id="search-media" type="text" placeholder="Cerca">
+            <input id="search-media" type="text" placeholder="Inizia a cercare">
             <button id="search-button" type="button" name="button">Cerca</button>
           </div>
         </div>
       </header>
 
       <main>
-        <div class="wrapper">
+        <div class="main_wrapper">
           <h2>Film</h2>
           <ul id="movies-list">
 
@@ -41,10 +41,8 @@
     <!-- TEMPLATE -->
     <script id="media-template" type="text/x-handlebars-template">
       <li class="media">
-        <div class="poster">
-          <img src="{{poster_path}}" alt="poster media">
-        </div>
-        <div class="description">
+        <img src="{{poster_path}}" alt="poster media">
+        <div class="description_layover">
           <h3>Titolo: {{title}}</h3>
           <h4>Titolo originale: {{original_title}}</h4>
           <p>Lingua: {{{original_language}}}</p>
