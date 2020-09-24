@@ -5,20 +5,44 @@
 }
 body {
   background-color: dodgerblue;
+  font-family: 'Roboto', sans-serif;
+}
+h1 {
+  color: #e50914;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 h2 {
   font-size: 40px;
   color: red;
   margin-top: 20px;
 }
+ul {
+  list-style: none;
+}
+header {
+  background-color: #000;
+  height: 70px;
+}
+.header_wrapper {
+  width: 90%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 10px 10px;
+}
+
 .wrapper {
   width: 90%;
   margin: auto;
 }
-.search-bar {
-  margin: 20px 0;
-  border-bottom: 1px solid lightgrey;
-  padding-bottom: 20px;
+.search-bar input {
+  padding: 2px;
+}
+.search-bar button {
+  padding: 2px;
 }
 #movies-list {
   padding-bottom: 20px;

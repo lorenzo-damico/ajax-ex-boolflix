@@ -52,7 +52,7 @@ $(document).ready(function () {
       var inizioUrl = "https://image.tmdb.org/t/p/";
 
       // Stabilisco la dimensione del poster.
-      var dimensionePoster = "w154";
+      var dimensionePoster = "w342";
 
       // Acquisisco la parte finale dell'URL che mi viene passata dal database.
       var fineUrl = string;
