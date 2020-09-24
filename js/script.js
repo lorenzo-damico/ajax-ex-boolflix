@@ -10,9 +10,42 @@
 // 3. Lingua
 // 4. Voto
 
+// Milestone 2
+// Trasformiamo il voto da 1 a 10 decimale in un numero intero da 1 a 5, così da
+// permetterci di stampare a schermo un numero di stelle piene che vanno da 1 a 5,
+// lasciando le restanti vuote (troviamo le icone in FontAwesome).
+// Arrotondiamo sempre per eccesso all’unità successiva, non gestiamo icone mezze
+// piene (o mezze vuote :P)
+// Trasformiamo poi la stringa statica della lingua in una vera e propria bandiera
+// della nazione corrispondente, gestendo il caso in cui non abbiamo la bandiera
+// della nazione ritornata dall’API (le flag non ci sono in FontAwesome).
+// Allarghiamo poi la ricerca anche alle serie tv. Con la stessa azione di
+// ricerca dovremo prendere sia i film che corrispondono alla query, sia le
+// serie tv, stando attenti ad avere alla fine dei valori simili (le serie e i
+// film hanno campi nel JSON di risposta diversi, simili ma non sempre identici).
+// Qui un esempio di chiamata per le serie tv:
+// https://api.themoviedb.org/3/search/tv?api_key=e99307154c6dfb0b4750f6603256716d&language=it_IT&query=scrubs
+
 $(document).ready(function () {
 
   // FUNZIONI
+
+  // FUNZIONE DI STAMPA DEL MESSAGGIO ASSENZA DI RISULTATI.
+  function printError(string) {
+
+    // Seleziono il tipo di media.
+    if (string == film) {
+
+      var sezioneMedia = $("#movies-list");
+
+    } else if (string == serie) {
+
+      var sezioneMedia = $("#series-list");
+    }
+
+    // Stampo un messaggio di mancanza di risultati.
+    sezioneMedia.text("La ricerca non ha dato risultati per la sezione " + string + ".");
+  }
 
   // FUNZIONE DI PULIZIA DEL CAMPO INPUT E DELLE LISTE FILM E SERIE.
   function resetSearch() {
@@ -25,47 +58,46 @@ $(document).ready(function () {
     $("#search-media").val("");
   }
 
-  // FUNZIONE CHE DEFINISCE LA BANDIERINA DELLA LINGUA.
-  function flagGenerator(mediaObject) {
-
-    // Salvo la lingua in una variabile.
-    var lingua = mediaObject.original_language;
+  // FUNZIONE CHE STAMPA LA BANDIERINA DELLA LINGUA.
+  function printFlags(lang) {
 
     // Se la lingua è inclusa fra le bandiere presenti, ritorno la bandierina.
-    if (bandierePresenti.includes(lingua)) {
-      return "img/"+ lingua + ".png";
+    if (bandierePresenti.includes(lang)) {
+      return '<img src="img/' + lang + '.png" alt="bandiera lingua">';
 
-    // Altrimenti ritorno una bandiera trasparente.
+    // Altrimenti ritorno la lingua.
     } else {
-      return "img/trasparente.png";
+      return lang;
     }
   }
 
-  // FUNZIONE CHE CONVERTE IL VOTO IN STELLINE.
-  function voteConversion(mediaObject) {
-
-    // Salvo il voto in una variabile.
-    var voto = mediaObject.vote_average;
+  // FUNZIONE CHE STAMPA IL VOTO IN STELLINE.
+  function printStars(num) {
 
     // Converto il voto in scala da 1 a 5 arrotondando per eccesso.
-    var votoArrotondato = Math.ceil(voto / 2);
+    var num = Math.ceil(num / 2);
 
-    // Con un ciclo stampo un numero di stelle piene pari al voto.
+    // Definisco una stringa vuota.
     var stelline = "";
-    for (var i = 0; i < votoArrotondato; i++) {
-      stelline += '<i class="fas fa-star"></i>';
+
+    // Con un ciclo stampo cinque stelle.
+    for (var i = 1; i <= 5; i++) {
+
+      // Se i minore del numero, aggiungo una stella piena.
+      if (i <= num) {
+        stelline += '<i class="fas fa-star"></i>';
+
+        // Altrimenti aggiungo una stella vuota.
+      } else {
+        stelline += '<i class="far fa-star"></i>';
+      }
     }
 
-    // Con un ciclo stampo un numero di stelle vuote pari alle rimanenti
-    // per arrivare a 5.
-    for (var i = 0; i < (5 - votoArrotondato); i++) {
-      stelline += '<i class="far fa-star"></i>';
-    }
     return stelline;
   }
 
   // FUNZIONE CHE STAMPA A SCHERMO I RISULTATI DI UNA RICHIESTA.
-  function renderMedia(arrayDatabase, sezioneMedia) {
+  function renderMedia(arrayDatabase, mediaString) {
 
     // Genero il template con handlebars.
     var source = $("#media-template").html();
@@ -74,22 +106,30 @@ $(document).ready(function () {
     // Eseguo un ciclo sull'array dei media per stamparli a schermo.
     for (var i = 0; i < arrayDatabase.length; i++) {
 
-      // Genero la bandierina da associare alla lingua.
-      var bandieraLingua = flagGenerator(arrayDatabase[i]);
+      // Eseguo un controllo sul tipo di media, generando diverse variabili.
+      if (mediaString == film) {
+        var title = arrayDatabase[i].title;
+        var originalTitle = arrayDatabase[i].original_title;
+        var sezioneMedia = $("#movies-list");
 
-      // Converto il voto in quinti e genero le stelle.
-      var votoStellato = voteConversion(arrayDatabase[i]);
+      } else if (mediaString == serie) {
+        var title = arrayDatabase[i].name;
+        var originalTitle = arrayDatabase[i].original_name;
+        var sezioneMedia = $("#series-list");
+      }
+
+      // Genero la bandiera corrispondente alla lingua, se disponibile.
+      var lingua = printFlags(arrayDatabase[i].original_language);
+
+      // Genero il voto in stelle, da 1 a 5.
+      var voto = printStars(arrayDatabase[i].vote_average);
 
       // Genero l'oggetto context da stampare.
       var context = {
-        "title": arrayDatabase[i].title,
-        "name": arrayDatabase[i].name,
-        "original_title": arrayDatabase[i].original_title,
-        "original_name": arrayDatabase[i].original_name,
-        "original_language": arrayDatabase[i].original_language,
-        "flag_icon": bandieraLingua,
-        "vote_average": arrayDatabase[i].vote_average / 2,
-        "voto_stellato": votoStellato
+        "title": title,
+        "original_title": originalTitle,
+        "original_language": lingua,
+        "vote_average": voto
       };
 
       // Compilo il template e lo aggiungo nella sezione media.
@@ -99,7 +139,7 @@ $(document).ready(function () {
   }
 
   // FUNZIONE DI RICERCA E STAMPA DEI MEDIA.
-  function getMedia(search, endpointMedia, sezioneMedia) {
+  function getMedia(search, endpointMedia, mediaType) {
 
     // Effettuo la chiamata ajax all'API del movie database, per ottenere
     // le schede dei media.
@@ -118,8 +158,17 @@ $(document).ready(function () {
           // Salvo la lista dei media in un array.
           var listaMedia = data.results;
 
-          // Eseguo la funzione di stampa.
-          renderMedia(listaMedia, sezioneMedia);
+          // Se la lista media non è vuota, stampo i risultati.
+          if (listaMedia.length != 0) {
+
+            // Eseguo la funzione di stampa.
+            renderMedia(listaMedia, mediaType);
+
+          // Altrimenti, se è vuota.
+          } else {
+
+            printError(mediaType);
+          }
 
         },
         "error": function (err) {
@@ -142,9 +191,9 @@ $(document).ready(function () {
   var endpointFilm = "https://api.themoviedb.org/3/search/movie";
   var endpointSerie = "https://api.themoviedb.org/3/search/tv";
 
-  // Definisco la sezione dei film e quella delle serie.
-  var sezioneFilm = $("#movies-list");
-  var sezioneSerie = $("#series-list");
+  // Definisco due variabili contenenti le tipologie di media.
+  var film = "Film";
+  var serie = "Serie TV";
 
   // FINE CODICE
 
@@ -164,10 +213,10 @@ $(document).ready(function () {
         resetSearch();
 
         // Uso la funzione di ricerca e stampa dei risultati dei film.
-        getMedia(searchInput, endpointFilm, sezioneFilm);
+        getMedia(searchInput, endpointFilm, film);
 
         // Uso la funzione di ricerca e stampa dei risultati delle serie.
-        getMedia(searchInput, endpointSerie, sezioneSerie);
+        getMedia(searchInput, endpointSerie, serie);
       }
     }
   );
@@ -188,10 +237,10 @@ $(document).ready(function () {
           resetSearch();
 
           // Uso la funzione di ricerca e stampa dei risultati.
-          getMedia(searchInput, endpointFilm, sezioneFilm);
+          getMedia(searchInput, endpointFilm, film);
 
           // Uso la funzione di ricerca e stampa dei risultati delle serie.
-          getMedia(searchInput, endpointSerie, sezioneSerie);
+          getMedia(searchInput, endpointSerie, serie);
         }
       }
     }
