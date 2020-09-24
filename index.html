@@ -35,10 +35,15 @@
     <!-- TEMPLATE -->
     <script id="media-template" type="text/x-handlebars-template">
       <li class="media">
-        <h3>Titolo: {{title}}</h3>
-        <h4>Titolo originale: {{original_title}}</h4>
-        <p>Lingua: {{{original_language}}}</p>
-        <p>Voto: <span class="stars">{{{vote_average}}}</span></p>
+        <div class="poster">
+          <img src="{{poster_path}}" alt="poster media">
+        </div>
+        <div class="description">
+          <h3>Titolo: {{title}}</h3>
+          <h4>Titolo originale: {{original_title}}</h4>
+          <p>Lingua: {{{original_language}}}</p>
+          <p>Voto: <span class="stars">{{{vote_average}}}</span></p>
+        </div>
       </li>
     </script>
     <!-- /TEMPLATE -->

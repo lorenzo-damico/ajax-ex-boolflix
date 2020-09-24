@@ -7,10 +7,10 @@ body {
   background-color: dodgerblue;
 }
 h2 {
+  font-size: 40px;
   color: red;
   margin-top: 20px;
 }
-
 .wrapper {
   width: 90%;
   margin: auto;
@@ -27,11 +27,16 @@ h2 {
 
 .media {
   margin-top: 20px;
-  line-height: 22px;
+  line-height: 30px;
+  display: flex;
+  align-items: flex-start;
 }
-.media img {
+.media .flag {
   height: 15px;
   vertical-align: middle;
+}
+.media .poster {
+  margin-right: 10px;
 }
 .stars {
   color: gold;

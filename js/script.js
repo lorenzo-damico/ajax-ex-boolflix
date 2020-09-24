@@ -26,9 +26,41 @@
 // Qui un esempio di chiamata per le serie tv:
 // https://api.themoviedb.org/3/search/tv?api_key=e99307154c6dfb0b4750f6603256716d&language=it_IT&query=scrubs
 
+// Milestone 3
+// In questa milestone come prima cosa aggiungiamo la copertina del film o
+// della serie al nostro elenco.
+// Ci viene passata dall’API solo la parte finale dell’URL, questo perché
+// poi potremo generare da quella porzione di URL tante dimensioni diverse.
+// Dovremo prendere quindi l’URL base delle immagini di TMDB:
+// https://image.tmdb.org/t/p/ per poi aggiungere la dimensione che vogliamo
+// generare (troviamo tutte le dimensioni possibili a questo link:
+// https://www.themoviedb.org/talk/53c11d4ec3a3684cf4006400) per poi aggiungere
+// la parte finale dell’URL passata dall’API.
+// Esempio di URL che torna la copertina di PEPPA PIG:
+// https://image.tmdb.org/t/p/w185/tZgQ76hS9RFIwFyUxzctp1Pkz0N.jpg
+
+
 $(document).ready(function () {
 
   // FUNZIONI
+
+  // FUNZIONE CHE GENERA L'URL DEL POSTER DEL MEDIA.
+  function printUrl(string) {
+
+    // Salvo la parte iniziale dell'URL dei poster.
+    var inizioUrl = "https://image.tmdb.org/t/p/";
+
+    // Stabilisco la dimensione del poster.
+    var dimensionePoster = "w154";
+
+    // Acquisisco la parte finale dell'URL che mi viene passata dal database.
+    var fineUrl = string;
+
+    // Compongo l'URL completo.
+    var urlCompleto = inizioUrl + dimensionePoster + fineUrl;
+
+    return urlCompleto;
+  }
 
   // FUNZIONE DI STAMPA DEL MESSAGGIO ASSENZA DI RISULTATI.
   function printError(string) {
@@ -44,7 +76,7 @@ $(document).ready(function () {
     }
 
     // Stampo un messaggio di mancanza di risultati.
-    sezioneMedia.text("La ricerca non ha dato risultati per la sezione " + string + ".");
+    sezioneMedia.html("<strong>La ricerca non ha dato risultati nella sezione " + string + ".</strong>");
   }
 
   // FUNZIONE DI PULIZIA DEL CAMPO INPUT E DELLE LISTE FILM E SERIE.
@@ -63,7 +95,7 @@ $(document).ready(function () {
 
     // Se la lingua è inclusa fra le bandiere presenti, ritorno la bandierina.
     if (bandierePresenti.includes(lang)) {
-      return '<img src="img/' + lang + '.png" alt="bandiera lingua">';
+      return '<img src="img/' + lang + '.png" class="flag" alt="bandiera lingua">';
 
     // Altrimenti ritorno la lingua.
     } else {
@@ -106,6 +138,9 @@ $(document).ready(function () {
     // Eseguo un ciclo sull'array dei media per stamparli a schermo.
     for (var i = 0; i < arrayDatabase.length; i++) {
 
+      // Genero l'URL del poster.
+      var posterUrl = printUrl(arrayDatabase[i].poster_path);
+
       // Eseguo un controllo sul tipo di media, generando diverse variabili.
       if (mediaString == film) {
         var title = arrayDatabase[i].title;
@@ -126,6 +161,7 @@ $(document).ready(function () {
 
       // Genero l'oggetto context da stampare.
       var context = {
+        "poster_path": posterUrl,
         "title": title,
         "original_title": originalTitle,
         "original_language": lingua,
