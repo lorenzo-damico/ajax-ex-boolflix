@@ -46,20 +46,24 @@ $(document).ready(function () {
 
   // FUNZIONE CHE GENERA L'URL DEL POSTER DEL MEDIA.
   function printUrl(string) {
+    if (string != null) {
 
-    // Salvo la parte iniziale dell'URL dei poster.
-    var inizioUrl = "https://image.tmdb.org/t/p/";
+      // Salvo la parte iniziale dell'URL dei poster.
+      var inizioUrl = "https://image.tmdb.org/t/p/";
 
-    // Stabilisco la dimensione del poster.
-    var dimensionePoster = "w154";
+      // Stabilisco la dimensione del poster.
+      var dimensionePoster = "w154";
 
-    // Acquisisco la parte finale dell'URL che mi viene passata dal database.
-    var fineUrl = string;
+      // Acquisisco la parte finale dell'URL che mi viene passata dal database.
+      var fineUrl = string;
 
-    // Compongo l'URL completo.
-    var urlCompleto = inizioUrl + dimensionePoster + fineUrl;
+      // Compongo l'URL completo.
+      var urlCompleto = inizioUrl + dimensionePoster + fineUrl;
 
-    return urlCompleto;
+      return urlCompleto;
+    } else {
+      return "img/locandina-non-disponibile.png";
+    }
   }
 
   // FUNZIONE DI STAMPA DEL MESSAGGIO ASSENZA DI RISULTATI.
