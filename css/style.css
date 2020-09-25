@@ -15,13 +15,7 @@ h1 {
 h2 {
   font-size: 40px;
   color: red;
-  margin: 0 15px 20px;
-}
-ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  margin-bottom: 20px;
 }
 header {
   background-color: #000;
@@ -34,9 +28,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 10px 10px;
+  padding-bottom: 10px;
 }
-
 .search-bar input {
   padding: 2px;
   font-family: 'Roboto', sans-serif;
@@ -47,17 +40,21 @@ header {
 }
 
 
-
 .main_wrapper {
   width: 90%;
   margin: auto;
-  padding-top: 20px;
+  padding: 20px 0;
 }
 #movies-list {
-  border-bottom: 1px solid lightgrey;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
+ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
 .media {
   width: 344px;
   height: 515px;

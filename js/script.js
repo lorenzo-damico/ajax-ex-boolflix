@@ -51,14 +51,15 @@
 
 $(document).ready(function () {
 
-  // FUNZIONI
+  // INIZIO FUNZIONI
+
   // FUNZIONE CHE GENERA L'OVERVIEW.
   function printOverview(string) {
 
     // Se la stringa ha contenuto, la ritorno.
     if (string != "")  {
       return string
-      
+
     // Altrimenti, ritorno il messaggio di errore.
     } else {
       return "Non disponibile."
@@ -83,36 +84,8 @@ $(document).ready(function () {
 
       return urlCompleto;
     } else {
-      return "img/locandina-non-disponibile.png";
+      return "img/no-poster.png";
     }
-  }
-
-  // FUNZIONE DI STAMPA DEL MESSAGGIO ASSENZA DI RISULTATI.
-  function printError(string) {
-
-    // Seleziono il tipo di media.
-    if (string == film) {
-
-      var sezioneMedia = $("#movies-list");
-
-    } else if (string == serie) {
-
-      var sezioneMedia = $("#series-list");
-    }
-
-    // Stampo un messaggio di mancanza di risultati.
-    sezioneMedia.html("<strong>La ricerca non ha dato risultati nella sezione " + string + ".</strong>");
-  }
-
-  // FUNZIONE DI PULIZIA DEL CAMPO INPUT E DELLE LISTE FILM E SERIE.
-  function resetSearch() {
-
-    // Svuoto la lista di film e serie.
-    $("#movies-list").html("");
-    $("#series-list").html("");
-
-    // Pulisco il campo di input.
-    $("#search-media").val("");
   }
 
   // FUNZIONE CHE STAMPA LA BANDIERINA DELLA LINGUA.
@@ -203,6 +176,23 @@ $(document).ready(function () {
     }
   }
 
+  // FUNZIONE DI STAMPA DEL MESSAGGIO ASSENZA DI RISULTATI.
+  function printError(string) {
+
+    // Seleziono il tipo di media.
+    if (string == film) {
+
+      var sezioneMedia = $("#movies-list");
+
+    } else if (string == serie) {
+
+      var sezioneMedia = $("#series-list");
+    }
+
+    // Stampo un messaggio di mancanza di risultati.
+    sezioneMedia.html("<strong>La ricerca non ha dato risultati nella sezione " + string + ".</strong>");
+  }
+
   // FUNZIONE DI RICERCA E STAMPA DEI MEDIA.
   function getMedia(search, endpointMedia, mediaType) {
 
@@ -243,9 +233,68 @@ $(document).ready(function () {
     );
   }
 
+  // FUNZIONE DI PULIZIA DEL CAMPO INPUT E DELLE LISTE FILM E SERIE.
+  function resetSearch() {
+
+    // Svuoto la lista di film e serie.
+    $("#movies-list").html("");
+    $("#series-list").html("");
+
+    // Pulisco il campo di input.
+    $("#search-media").val("");
+  }
+
+  // FUNZIONE DI RICERCA GENERICA.
+  function search() {
+
+    // Creo una variabile con il contenuto dell'input.
+    var searchInput = $("#search-media").val();
+
+    if (searchInput != "") {
+
+      // Stampo i titoli delle sezioni.
+      $("h2.movies-title").text(film);
+      $("h2.series-title").text(serie);
+
+      // Pulisco input e liste.
+      resetSearch();
+
+      // Uso la funzione di ricerca e stampa dei risultati dei film.
+      getMedia(searchInput, endpointFilm, film);
+
+      // Uso la funzione di ricerca e stampa dei risultati delle serie.
+      getMedia(searchInput, endpointSerie, serie);
+    }
+  }
 
   // FINE FUNZIONI
 
+
+  // INIZIO EVENTI
+
+  // 1. Aggiungo un evento al click sul bottone.
+  $("#search-button").click(
+    function () {
+
+      // Invoco la funzione di ricerca.
+      search();
+    }
+  );
+
+  // 2. Aggiungo un evento alla pressione del tasto invio.
+  $("#search-media").keyup(
+    function () {
+
+      // Se premo il tasto invio,
+      if (event.which == 13) {
+
+        // Invoco la funzione di ricerca.
+        search();
+      }
+    }
+  );
+
+  // FINE EVENTI
 
   // CODICE
 
@@ -262,55 +311,5 @@ $(document).ready(function () {
 
   // FINE CODICE
 
-
-  // EVENTI
-
-  // 1. Aggiungo un evento al click sul bottone.
-  $("#search-button").click(
-    function () {
-
-      // Creo una variabile con il contenuto dell'input.
-      var searchInput = $("#search-media").val();
-
-      if (searchInput != "") {
-
-        // Pulisco input e liste.
-        resetSearch();
-
-        // Uso la funzione di ricerca e stampa dei risultati dei film.
-        getMedia(searchInput, endpointFilm, film);
-
-        // Uso la funzione di ricerca e stampa dei risultati delle serie.
-        getMedia(searchInput, endpointSerie, serie);
-      }
-    }
-  );
-
-  // 2. Aggiungo un evento alla pressione del tasto invio.
-  $("#search-media").keyup(
-    function () {
-
-      // Se premo il tasto invio, cerco e stampo.
-      if (event.which == 13) {
-
-        // Creo una variabile con il contenuto dell'input.
-        var searchInput = $("#search-media").val();
-
-        if (searchInput != "") {
-
-          // Pulisco input e lista.
-          resetSearch();
-
-          // Uso la funzione di ricerca e stampa dei risultati.
-          getMedia(searchInput, endpointFilm, film);
-
-          // Uso la funzione di ricerca e stampa dei risultati delle serie.
-          getMedia(searchInput, endpointSerie, serie);
-        }
-      }
-    }
-  );
-
-  // FINE EVENTI
 
 });
