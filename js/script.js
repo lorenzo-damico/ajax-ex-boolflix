@@ -55,9 +55,11 @@ $(document).ready(function () {
   // FUNZIONE CHE GENERA L'OVERVIEW.
   function printOverview(string) {
 
+    // Se la stringa ha contenuto, la ritorno.
     if (string != "")  {
       return string
-
+      
+    // Altrimenti, ritorno il messaggio di errore.
     } else {
       return "Non disponibile."
     }
