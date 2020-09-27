@@ -58,7 +58,17 @@ $(document).ready(function () {
 
     // Se la stringa ha contenuto, la ritorno.
     if (string != "")  {
-      return string
+
+      // Controllo la lunghezza. Se minore o uguale di 200 caratteri, la ritorno.
+      if (string.length <= 200) {
+        return string;
+
+      // Altrimenti la taglio, aggiungo un indicatore e la ritorno.
+      } else {
+        string = string.slice(0, 200);
+        string += "[...]";
+        return string;
+      }
 
     // Altrimenti, ritorno il messaggio di errore.
     } else {
