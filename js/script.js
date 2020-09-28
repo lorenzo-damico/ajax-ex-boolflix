@@ -56,8 +56,40 @@ $(document).ready(function () {
   // FUNZIONE DI CHIAMATA ATTORI
   function getActors(endpoint, mediaId) {
 
+    endpoint += mediaId;
+    $.ajax(
+      {
+        "url": endpoint,
+        "data": {
+          "api_key": "04bbabd51c895f6f8040168aa7e1cd41"
+        },
+        "method": "GET",
+        "success": function (data) {
+
+          var listaGeneri = data.genres;
+
+          if (listaGeneri.length != 0) {
+
+            for (var i = 0; i < listaGeneri.length; i++) {
+
+              var genere = listaGeneri[i].name;
+              $(".media[data-id='" + mediaId + "'] .description_layover .genere").append("<p>" + genere + "</p>");
+              $(".media[data-id='" + mediaId + "']").addClass(genere.toLowerCase());
+
+            }
+          } else {
+
+            var genere = "<p>Non disponibili.</p>";
+          }
+        },
+        "error": function (err) {
+          alert("Errore!");
+        }
+      }
+    );
+
     // Lo aggiungo all'endpoint.
-    endpoint += mediaId  + "/credits";
+    endpoint += "/credits";
 
     // Effettuo la chiamata ajax.
     $.ajax(
@@ -92,15 +124,15 @@ $(document).ready(function () {
 
               } else {
 
-                var frase = "<p>Non disponibili.</p>"
+                var frase = "<p>Non disponibili.</p>";
               }
 
 
               // La aggiungo.
-              $(".media[data-id='" + mediaId + "'] .description_layover").append(frase);
+              $(".media[data-id='" + mediaId + "'] .description_layover .cast").append(frase);
             }
           } else {
-            $(".media[data-id='" + mediaId + "'] .description_layover").append("Dati non disponibili");
+            $(".media[data-id='" + mediaId + "'] .description_layover .cast").append("Dati non disponibili");
           }
         },
         "error": function (err) {
