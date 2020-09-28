@@ -48,6 +48,11 @@ header {
 #movies-list {
   margin-bottom: 50px;
 }
+.filter {
+  display: none;
+  margin: 20px 0;
+  color: #fff;
+}
 
 ul {
   list-style: none;

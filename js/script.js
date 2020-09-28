@@ -74,6 +74,18 @@ $(document).ready(function () {
 
               var genere = listaGeneri[i].name;
               $(".media[data-id='" + mediaId + "'] .description_layover .genere").append("<p>" + genere + "</p>");
+
+              if (genere == "Science Fiction") {
+                genere = "science-fiction";
+              } else if (genere == "TV Movie") {
+                genere = "tv-movie";
+              } else if (genere == "Action & Adventure") {
+                genere = "action-adventure";
+              } else if (genere == "Sci-Fi & Fantasy") {
+                genere = "sci-fi-fantasy";
+              } else if (genere == "War & Politics") {
+                genere = "war-politics";
+              }
               $(".media[data-id='" + mediaId + "']").addClass(genere.toLowerCase());
 
             }
@@ -386,6 +398,10 @@ $(document).ready(function () {
 
       // Uso la funzione di ricerca e stampa dei risultati delle serie.
       getMedia(searchInput, endpointSerie, serie);
+
+      $(".filter").show();
+      $("#genere-film").val("all");
+      $("#genere-serie").val("all");
     }
   }
 
@@ -416,6 +432,47 @@ $(document).ready(function () {
     }
   );
 
+  // 3. Al change della select film, mostro solo alcuni generi.
+  $("#genere-film").change(
+    function () {
+
+      $("#movies-list .media").hide();
+
+      var valueGenereFilm = $("#genere-film").val();
+
+      if (valueGenereFilm == "all") {
+
+        $("#movies-list .media").show();
+
+      } else {
+
+        $("#movies-list ." + valueGenereFilm).show();
+      }
+
+
+    }
+  );
+
+  // 4. Al change della select serie, mostro solo alcuni generi.
+  $("#genere-serie").change(
+    function () {
+
+      $("#series-list .media").hide();
+
+      var valueGenereSerie = $("#genere-serie").val();
+
+      if (valueGenereSerie == "all") {
+
+        $("#series-list .media").show();
+
+      } else {
+
+        $("#series-list ." + valueGenereSerie).show();
+      }
+
+
+    }
+  );
   // FINE EVENTI
 
   // CODICE
