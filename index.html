@@ -40,7 +40,7 @@
 
     <!-- TEMPLATE -->
     <script id="media-template" type="text/x-handlebars-template">
-      <li class="media">
+      <li class="media" data-id = "{{id}}">
         <img src="{{poster_path}}" alt="poster media">
         <div class="description_layover">
           <p><strong>Titolo:</strong> {{title}}</p>
@@ -48,6 +48,7 @@
           <p><strong>Lingua:</strong> {{{original_language}}}</p>
           <p><strong>Voto:</strong> <span class="stars">{{{vote_average}}}</span></p>
           <p><strong>Overview:</strong> {{overview}}</p>
+          <h3>Attori</h3>
         </div>
       </li>
     </script>

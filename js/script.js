@@ -53,6 +53,63 @@ $(document).ready(function () {
 
   // INIZIO FUNZIONI
 
+  // FUNZIONE DI CHIAMATA ATTORI
+  function getActors(endpoint, mediaId) {
+
+    // Lo aggiungo all'endpoint.
+    endpoint += mediaId  + "/credits";
+
+    // Effettuo la chiamata ajax.
+    $.ajax(
+      {
+        "url": endpoint,
+        "data": {
+          "api_key": "04bbabd51c895f6f8040168aa7e1cd41"
+        },
+        "method": "GET",
+        "success": function (data) {
+
+          // Seleziono il cast.
+          var cast = data.cast;
+          if (cast.length != 0) {
+
+            // Ciclo il cast.
+            for (var i = 0; i < 5 && i < cast.length; i++) {
+
+              // Acquisisco nome e personaggio.
+              if (cast[i].name != "") {
+                var attore = cast[i].name;
+
+                if (cast[i].character != "") {
+                  var personaggio = cast[i].character;
+
+                  // Scrivo la frase.
+                  var frase = "<p>" + attore + " nel ruolo di " + personaggio + "</p>";
+
+                } else {
+                  var frase = "<p>" + attore + "</p>";
+                }
+
+              } else {
+
+                var frase = "<p>Non disponibili.</p>"
+              }
+
+
+              // La aggiungo.
+              $(".media[data-id='" + mediaId + "'] .description_layover").append(frase);
+            }
+          } else {
+            $(".media[data-id='" + mediaId + "'] .description_layover").append("Dati non disponibili");
+          }
+        },
+        "error": function (err) {
+          alert("Errore!");
+        }
+      }
+    );
+  }
+
   // FUNZIONE CHE GENERA L'OVERVIEW.
   function printOverview(string) {
 
@@ -172,6 +229,7 @@ $(document).ready(function () {
 
       // Genero l'oggetto context da stampare.
       var context = {
+        "id": arrayDatabase[i].id,
         "poster_path": posterUrl,
         "title": title,
         "original_title": originalTitle,
@@ -234,6 +292,28 @@ $(document).ready(function () {
 
             printError(mediaType);
           }
+
+          // Stabilisco l'endpoint del tipo di media.
+          if (mediaType == film) {
+            var endpointActors = "https://api.themoviedb.org/3/movie/"
+            var listaMedia = $("#movies-list .media");
+          } else if (mediaType == serie) {
+            var endpointActors = "https://api.themoviedb.org/3/tv/"
+            var listaMedia = $("#series-list .media");
+          }
+
+          // Creo un ciclo sui media.
+          listaMedia.each(
+            function () {
+
+              // Acquisisco il data-id
+              var id = $(this).attr("data-id");
+
+              // Parte la funzione di ricerca degli attori.
+              getActors(endpointActors, id)
+
+            }
+          );
 
         },
         "error": function (err) {
